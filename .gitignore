@@ -1,0 +1,5 @@
+/build
+/dist
+/M2Crypto.egg-info
+*.pyc
+*.swp

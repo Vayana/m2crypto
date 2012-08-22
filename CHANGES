@@ -2,6 +2,10 @@
 ----
 - 
 
+0.21.1vayana - 2012-08-22
+-------------------------
+- SSLv2 fix from http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=637904
+
 0.21.1 - 2011-01-15
 -------------------
 - Distribution fix
