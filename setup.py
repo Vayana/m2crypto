@@ -12,6 +12,7 @@ Copyright 2008-2009 Heikki Toivonen. All rights reserved.
 """
 
 import os, sys
+import os.path
 try:
     from setuptools import setup
     from setuptools.command import build_ext
@@ -54,6 +55,10 @@ class _M2CryptoBuildExt(build_ext.build_ext):
         
         self.swig_opts = ['-I%s' % i for i in self.include_dirs + \
                           [opensslIncludeDir]]
+        for multi_arch_dir in ('x86_64-linux-gnu', 'i386-linux-gnu'):
+            opensslMultiarchIncludeDir = os.path.join(opensslIncludeDir, multi_arch_dir)
+            if os.path.isdir(opensslMultiarchIncludeDir) :
+                self.swig_opts.append('-I%s' % opensslMultiarchIncludeDir)
         self.swig_opts.append('-includeall')
         #self.swig_opts.append('-D__i386__') # Uncomment for early OpenSSL 0.9.7 versions, or on Fedora Core if build fails
         #self.swig_opts.append('-DOPENSSL_NO_EC') # Try uncommenting if you can't build with EC disabled
@@ -134,7 +139,7 @@ m2crypto = Extension(name = 'M2Crypto.__m2crypto',
                      )
 
 setup(name = 'M2Crypto',
-      version = '0.21.1-vayana',
+      version = '0.21.1vayana2',
       description = 'M2Crypto: A Python crypto and SSL toolkit',
       long_description = '''\
 M2Crypto is the most complete Python wrapper for OpenSSL featuring RSA, DSA,
@@ -153,6 +158,7 @@ interface.''',
       maintainer_email = 'heikki@osafoundation.org',
       url = 'http://chandlerproject.org/Projects/MeTooCrypto',
       packages = ['M2Crypto', 'M2Crypto.SSL', 'M2Crypto.PGP'],
+      package_data={'M2Crypto':['SWIG/_*.i']},
       classifiers = [
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
